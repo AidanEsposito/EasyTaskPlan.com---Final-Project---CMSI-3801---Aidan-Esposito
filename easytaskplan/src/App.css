@@ -1,0 +1,123 @@
+/* App.css */
+
+.App {
+  text-align: center;
+  background-image: linear-gradient(aqua, aquamarine);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Container {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.Header {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.Form {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.Input {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.Button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.Button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+.li {
+  /* Style for incomplete todos */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.Row {
+  display: flex;
+  align-items: center;
+}
+
+.TextCompleted {
+  /* Style for completed todo text */
+  text-decoration: line-through;
+  color: #888;
+}
+
+button {
+  /* Style for the delete button */
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #d32f2f;
+}
+
+.LiComplete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e0f7fa;
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #aed581;
+  border-radius: 4px;
+}
+
+.Text {
+  margin-left: 10px;
+  flex: 1;
+}
+
+.Count {
+  margin-top: 10px;
+  color: #888;
+  font-size: 14px;
+}
+
+.Footer {
+  margin-top: 20px;
+  color: #333;
+}
