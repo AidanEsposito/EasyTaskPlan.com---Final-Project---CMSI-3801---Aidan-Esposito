@@ -18,6 +18,7 @@
   width: 80%;
   max-width: 400px;
   margin: 20px auto;
+  position: relative;
 }
 
 .Header {
@@ -93,6 +94,13 @@ button {
 
 button:hover {
   background-color: #d32f2f;
+}
+
+.SignButton {
+  margin-right: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .LiComplete {
