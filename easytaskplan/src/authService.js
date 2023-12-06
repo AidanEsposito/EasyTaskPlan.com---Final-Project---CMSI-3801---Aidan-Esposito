@@ -28,3 +28,5 @@ export function useAuthentication() {
   }, []);
   return user;
 }
+
+//thanks to Toal CMSI LMU 2021 - Web Design for firebase authentification information!

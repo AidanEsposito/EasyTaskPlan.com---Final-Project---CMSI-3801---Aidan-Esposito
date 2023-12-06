@@ -18,44 +18,61 @@ import {
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const user = useAuthentication();
 
-  const createTodo = async (e) => {
-    e.preventDefault(e);
-    if (input === "") {
-      alert("Please enter a valid Todo.");
-      return;
+  //Add TODO
+  async function createTodo(e) {
+    e.preventDefault();
+
+    try {
+      setIsLoading(true);
+      if (input === "") {
+        alert("Please enter a valid Todo.");
+        return;
+      }
+
+      const defaultDifficulty = "Medium";
+
+      await addDoc(collection(db, "todos"), {
+        user: user.email,
+        text: input,
+        completed: false,
+        difficulty: defaultDifficulty,
+      });
+
+      setInput("");
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
-    const defaultDifficulty = "Medium";
-
-    await addDoc(collection(db, "todos"), {
-      user: user.email,
-      text: input,
-      completed: false,
-      difficulty: defaultDifficulty,
-    });
-    setInput("");
-  };
-
+  //Update TODO
   useEffect(() => {
     if (!user) {
       return;
     }
 
     const q = query(collection(db, "todos"), where("user", "==", user.email));
+    setIsLoading(true);
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
-      let todosArr = [];
-      QuerySnapshot.forEach((doc) => {
-        todosArr.push({ ...doc.data(), id: doc.id });
-      });
-      setTodos(todosArr);
+      try {
+        let todosArr = [];
+        QuerySnapshot.forEach((doc) => {
+          todosArr.push({ ...doc.data(), id: doc.id });
+        });
+        setTodos(todosArr);
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      } finally {
+        setIsLoading(false);
+      }
     });
 
     return () => unsubscribe();
   }, [user]);
-  //Read Todo
-  //Update Todo
 
   // const updateDifficulty = async (id, difficulty) => {
   //   await updateDoc(doc(db, "todos", id), {
@@ -63,16 +80,31 @@ function App() {
   //   });
   // };
 
-  const toggleComplete = async (todo) => {
-    await updateDoc(doc(db, "todos", todo.id), {
-      completed: !todo.completed,
-    });
-  };
+  //Complete TODO
+  async function toggleComplete(todo) {
+    try {
+      setIsLoading(true);
+      await updateDoc(doc(db, "todos", todo.id), {
+        completed: !todo.completed,
+      });
+    } catch (error) {
+      console.error("Error updating todo:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
-  //Delete Todo
-  const deleteTodo = async (id) => {
-    await deleteDoc(doc(db, "todos", id));
-  };
+  //Delete TODO
+  async function deleteTodo(id) {
+    try {
+      setIsLoading(true);
+      await deleteDoc(doc(db, "todos", id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="App">
@@ -85,16 +117,18 @@ function App() {
             <h4>Add a task to get started!</h4>
             <form onSubmit={createTodo} className="Form">
               <input
+                id="todoInput"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="Input"
                 type="text"
                 placeholder="Add TODO"
               ></input>
-              <button className="Button">
+              <button className="Button" disabled={isLoading}>
                 <AiOutlinePlus size={30}></AiOutlinePlus>
               </button>
             </form>
+            {isLoading && <p className="WaitingText">Please Wait...</p>}
             <ul>
               {todos.map((todo, index) => (
                 <Todo
@@ -123,12 +157,11 @@ export default App;
 //Credit to Code Commerce for a guide to start the website https://www.youtube.com/watch?v=drF8HbnW87w
 
 //finish difficulty scaling
-//finish authentification
 //look into calender and other features
 //add Error checking and waiting screens
 
 //finish date goal: Wednesday 12/6/23 Supposed Presentation Date: 12/11/23
 
 //todos.js
-//authentification and filtering tutorial
-//fix query so everyone has unique web page
+
+//add online/offline control
