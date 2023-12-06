@@ -39,7 +39,11 @@ function App() {
   };
 
   useEffect(() => {
-    const q = query(collection(db, "todos"));
+    if (!user) {
+      return;
+    }
+
+    const q = query(collection(db, "todos"), where("user", "==", user.email));
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
       let todosArr = [];
       QuerySnapshot.forEach((doc) => {
@@ -47,8 +51,9 @@ function App() {
       });
       setTodos(todosArr);
     });
+
     return () => unsubscribe();
-  }, []);
+  }, [user]);
   //Read Todo
   //Update Todo
 
