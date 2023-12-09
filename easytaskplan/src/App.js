@@ -1,9 +1,11 @@
+//Aidan Esposito
+
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import { SignIn, SignOut, useAuthentication } from "./authService";
 import { AiOutlinePlus } from "react-icons/ai";
 import Todo from "./Todo";
-import { auth, db } from "./firebase";
+import { db } from "./firebase";
 import {
   query,
   collection,
@@ -32,13 +34,10 @@ function App() {
         return;
       }
 
-      const defaultDifficulty = "Medium";
-
       await addDoc(collection(db, "todos"), {
         user: user.email,
         text: input,
         completed: false,
-        difficulty: defaultDifficulty,
       });
 
       setInput("");
@@ -73,12 +72,6 @@ function App() {
 
     return () => unsubscribe();
   }, [user]);
-
-  // const updateDifficulty = async (id, difficulty) => {
-  //   await updateDoc(doc(db, "todos", id), {
-  //     difficulty: difficulty,
-  //   });
-  // };
 
   //Complete TODO
   async function toggleComplete(todo) {
@@ -115,7 +108,7 @@ function App() {
         {user && (
           <div>
             <h4>Add a task to get started!</h4>
-            <form onSubmit={createTodo} className="Form">
+            <form id="Form" onSubmit={createTodo} className="Form">
               <input
                 id="todoInput"
                 value={input}
@@ -136,7 +129,6 @@ function App() {
                   todo={todo}
                   toggleComplete={toggleComplete}
                   deleteTodo={deleteTodo}
-                  // updateDifficulty={updateDifficulty}
                 ></Todo>
               ))}
             </ul>
@@ -155,13 +147,3 @@ function App() {
 export default App;
 
 //Credit to Code Commerce for a guide to start the website https://www.youtube.com/watch?v=drF8HbnW87w
-
-//finish difficulty scaling
-//look into calender and other features
-//add Error checking and waiting screens
-
-//finish date goal: Wednesday 12/6/23 Supposed Presentation Date: 12/11/23
-
-//todos.js
-
-//add online/offline control
